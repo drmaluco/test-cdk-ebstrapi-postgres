@@ -80,7 +80,9 @@ export class ElasticBeanstalkCdkStack extends Stack {
       encryption: s3.BucketEncryption.S3_MANAGED,
       serverAccessLogsPrefix: 'server_access_logs',
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      enforceSSL: true
+      enforceSSL: true,
+      removalPolicy: RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
     })
 
     /*
@@ -214,12 +216,12 @@ export class ElasticBeanstalkCdkStack extends Stack {
       vpc.node.findAll().forEach(node => node instanceof CfnResource && node.applyRemovalPolicy(retentionPolicy))
     }
 
-    // Allow inbound traffic on port 3306 from the web instances
+    // Allow inbound traffic on port 5432 from the web instances
     dbSecurityGroup.connections.allowFrom(
       new ec2.Connections({
         securityGroups: [webSecurityGroup]
       }),
-      ec2.Port.tcp(3306)
+      ec2.Port.tcp(5432)
     )
 
     /*
@@ -266,7 +268,7 @@ export class ElasticBeanstalkCdkStack extends Stack {
     initializer.customResource.node.addDependency(rdsInstance)
 
     // Allow the initializer function to connect to the RDS instance
-    rdsInstance.connections.allowFrom(initializer.function, ec2.Port.tcp(3306))
+    rdsInstance.connections.allowFrom(initializer.function, ec2.Port.tcp(5432))
 
     // Allow initializer function to read RDS instance creds secret
     rdsCredentials.grantRead(initializer.function)

@@ -1,8 +1,9 @@
 {
-
   "name": "application-name",
   "version": "0.0.1",
-  "engines": { "node" : "14.16.0" },
+  "engines": {
+    "node": "14.16.0"
+  },
   "private": true,
   "scripts": {
     "start": "node app"
@@ -22,5 +23,5 @@
     "@aws-sdk/protocol-http": "^3.53.0",
     "@aws-sdk/util-format-url": "^3.53.0",
     "@aws-sdk/credential-provider-node": "^3.53.0"
-  } 
+  }
 }

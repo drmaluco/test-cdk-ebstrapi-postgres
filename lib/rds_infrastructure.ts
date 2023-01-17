@@ -87,7 +87,7 @@ export class CdkRDSResource extends Construct {
     // Define the configuration of the RDS instance
     const rdsConfig: rds.DatabaseInstanceProps = {
       vpc,
-      engine: rds.DatabaseInstanceEngine.mysql({ version: rds.MysqlEngineVersion.VER_8_0_25 }),
+      engine: rds.DatabaseInstanceEngine.postgres({ version: rds.PostgresEngineVersion.VER_14_1 }),
       instanceType: new ec2.InstanceType(dbInstanceType),
       instanceIdentifier: `${applicationName}`,
       allocatedStorage: dbStorageGB,
